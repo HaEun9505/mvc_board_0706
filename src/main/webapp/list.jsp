@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+ <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,9 +8,9 @@
 <title>게시판 글 목록</title>
 </head>
 <body>
+
 	<h2>게시판 글 리스트</h2>
 	<hr>
-	<!-- cellpadding : 셀과 글자 사이의 간격, cellspacing :셀 간의 간격 -->
 	
 	<table border="1" cellpadding="0" cellspacing="0">
 		<tr bgcolor="pink" align="center">
@@ -17,21 +18,24 @@
 			<td width="400">제목</td>
 			<td>글쓴이</td>
 			<td>등록일</td>
-			<td>조회수</td>		
-		</tr>
-		<tr>
-			<td align="center">1</td>
-			<td>안녕하세요</td>
-			<td align="center">홍길동</td>
-			<td align="center">2022-06-13</td>
-			<td align="center">0</td>		
-		</tr>
-		
+			<td>조회수</td>
+		</tr> 
+		<!-- var은 arraylist안에서 뽑아낸 하나의 객체 이름을 지정해줌 -->
+		<c:forEach items="${list}" var="bdto">
+			<tr>
+				<td align="center">${bdto.bid} </td>
+				<td><a href="content_view.do?bid=${bdto.bid}">${bdto.btitle} </td>
+				<td align="center">${bdto.bname} </td>
+				<td align="center">${bdto.bdate} </td>
+				<td align="center">${bdto.bhit} </td>
+			</tr>
+		</c:forEach>
 		<tr align="right">
 			<td colspan="5">
 				<input type="button" value="글쓰기" onclick="location.href='write_view.do'">
 			</td>
 		</tr>
 	</table>
+	
 </body>
 </html>

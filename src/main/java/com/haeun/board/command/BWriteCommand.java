@@ -6,16 +6,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.haeun.board.dao.BDao;
 
 public class BWriteCommand {
-	public void writeExecute(HttpServletRequest request, HttpServletResponse response) {
+
+	public void writeExcute(HttpServletRequest request, HttpServletResponse response) {
+		String bname = request.getParameter("bname");
+		String btitle = request.getParameter("btitle"); 
+		String bcontent = request.getParameter("bcontent");
 		
-		String bname=request.getParameter("bname");
-		String btitle=request.getParameter("btitle");
-		String bcontent=request.getParameter("bcontent");
-		
-		BDao bdao = new BDao();
-		//하나씩 호출해서 DB에 넣기
+		BDao bdao = new BDao(); 
 		bdao.write(bname, btitle, bcontent);
-		
-		
 	}
 }

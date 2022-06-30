@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.haeun.board.command.BContentviewCommand;
 import com.haeun.board.command.BListCommand;
+import com.haeun.board.command.BModifyCommand;
 import com.haeun.board.command.BWriteCommand;
 import com.haeun.board.dao.BDao;
 
@@ -47,7 +49,7 @@ public class BFrontController extends HttpServlet {
 	private void actionDo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String uri = request.getRequestURI();		//요청주소저장(/mvc_boardProject_0630/write.do)
 		String conPath = request.getContextPath();	//컨텍스트패스저장(/mvc_boardProject_0630)
-		String command = uri.substring(conPath.length());	//실제 주소 요청 분기
+		String command = uri.substring(conPath.length());	//실제 주소 요청 분기(command 분기)
 		
 		String view = null;
 		
@@ -61,24 +63,44 @@ public class BFrontController extends HttpServlet {
 			//글쓰기 명령이 실행(write command만 실행)
 			request.setCharacterEncoding("utf-8");
 			
-			//BWriteCommand 클래스 객체 선언
+			//BWriteCommand 클래스 객체 선언(호출)
 			BWriteCommand comm = new BWriteCommand();
-			comm.writeExecute(request, response);
+			comm.writeExcute(request, response);
 			
 			view = "list.do";
 		}else if(command.equals("/list.do")) {
 			//글 리스트 불러오기 명령이(list command) 실행
 			
+			//BListCommand 클래스 객체 선언(호출)
 			BListCommand comm = new BListCommand();
-			comm.listExecute(request,response);
+			comm.listExcute(request, response);
 			
 			view = "list.jsp";
+			//response.sendRedirect(view); //데이터가 셋팅된 request 객체를 사용하지 못함
+		}else if(command.equals("/content_view.do")) {	//content_view.do 요청
+			//글 리스트 불러오기 명령이(list command) 실행
+			
+			//BListCommand 클래스 객체 선언(호출)
+			BContentviewCommand comm = new BContentviewCommand();
+			comm.viewExcute(request, response);
+			
+			view = "content_view.jsp";
 		}
-		
+		else if(command.equals("/modify.do")) {	//content_view.do 요청
+			//글 리스트 불러오기 명령이(list command) 실행
+			request.setCharacterEncoding("utf-8");
+			
+			
+			//BListCommand 클래스 객체 선언(호출)
+			BModifyCommand comm = new BModifyCommand();
+			comm.modifyExecute(request, response);
+			
+			//수정하면 글 목록 페이지로 이동
+			view = "list.do";
+		}
 		//페이지로 이동
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);
 		
 	}
-
 }

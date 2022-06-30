@@ -13,7 +13,6 @@ public class BDto {
 	
 	public BDto() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public BDto(int bid, String bname, String btitle, String bcontent, int bhit, Timestamp bdate) {
