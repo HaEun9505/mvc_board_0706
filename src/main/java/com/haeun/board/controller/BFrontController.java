@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.haeun.board.command.BContentviewCommand;
+import com.haeun.board.command.BDeleteCommand;
 import com.haeun.board.command.BListCommand;
 import com.haeun.board.command.BModifyCommand;
 import com.haeun.board.command.BWriteCommand;
@@ -78,24 +79,34 @@ public class BFrontController extends HttpServlet {
 			view = "list.jsp";
 			//response.sendRedirect(view); //데이터가 셋팅된 request 객체를 사용하지 못함
 		}else if(command.equals("/content_view.do")) {	//content_view.do 요청
-			//글 리스트 불러오기 명령이(list command) 실행
 			
-			//BListCommand 클래스 객체 선언(호출)
+			
+			//BContentView 클래스 객체 선언(호출)
 			BContentviewCommand comm = new BContentviewCommand();
 			comm.viewExcute(request, response);
 			
 			view = "content_view.jsp";
-		}
-		else if(command.equals("/modify.do")) {	//content_view.do 요청
-			//글 리스트 불러오기 명령이(list command) 실행
+		}else if(command.equals("/modify.do")) {	//content_view.do 요청
+			
 			request.setCharacterEncoding("utf-8");
 			
 			
-			//BListCommand 클래스 객체 선언(호출)
+			//BModifyCommand 클래스 객체 선언(호출)
 			BModifyCommand comm = new BModifyCommand();
 			comm.modifyExecute(request, response);
 			
 			//수정하면 글 목록 페이지로 이동
+			view = "list.do";
+		}else if(command.equals("/delete.do")) {	//content_view.do 요청
+			//글 리스트 불러오기 명령이(list command) 실행
+			request.setCharacterEncoding("utf-8");
+			
+			
+			//BDeleteCommand 클래스 객체 선언(호출)
+			BDeleteCommand comm = new BDeleteCommand();
+			comm.deleteExecute(request, response);
+			
+			//삭제하면 글 목록 페이지로 이동
 			view = "list.do";
 		}
 		//페이지로 이동

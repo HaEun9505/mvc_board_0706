@@ -10,7 +10,7 @@
 	<h2>글 내용 보기</h2>
 	<hr>
 	<table width="500" cellpadding="0" cellspacing="0" border="1">
-		<form action="modify.do" method="post">
+		<form action="delete.do" method="post">
 		
 		<input type="hidden" name="bid" value="${contentView.bid }">
 		
@@ -40,7 +40,8 @@
 			<td colspan="2" align="center">
 				<input type="submit" value="글수정">&nbsp;&nbsp;			
 				<input type="button" value="글목록" onclick="location.href='list.do'">&nbsp;&nbsp;
-				<a href="delete.do?bid=${contentView.bid }">글삭제</a>
+				<input type="button" value="글삭제" onclick="location.href='delete.do'">
+				<!-- <a href="delete.do?bid=${contentView.bid }">글삭제</a>-->
 			</td>
 		</tr>
 		</form>

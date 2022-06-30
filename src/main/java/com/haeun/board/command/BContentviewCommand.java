@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.haeun.board.dao.BDao;
 import com.haeun.board.dto.BDto;
-
+//글 내용
 public class BContentviewCommand {
 	public void viewExcute(HttpServletRequest request, HttpServletResponse response) {
 		
@@ -14,6 +14,7 @@ public class BContentviewCommand {
 		BDao bdao = new BDao(); 
 		BDto bdto = bdao.contentView(bid);
 		
+		//request 객체 셋팅
 		request.setAttribute("contentView", bdto);
 	}
 }

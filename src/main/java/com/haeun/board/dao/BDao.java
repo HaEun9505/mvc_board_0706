@@ -170,21 +170,55 @@ public class BDao {
    }
    public void modify(String bname, String btitle, String bcontent, String bid) { //insert, 매개변수 선언
 	      
+      Connection conn = null;
+      //statement를 상속받는 인터페이스로 SQL구문을 실행시키는 기능을 갖는 객체
+      PreparedStatement pstmt = null;      
+      
+      try {
+         String sql = "UPDATE mvc_board SET bname=?, btitle=?, bcontent=? WHERE bid=?"; 
+         // PreparedStatement는 값에 뭐가 들어올지 모를 때 parameter값에 '?'를 씀, 조회수는 0부터 시작
+         conn = datasource.getConnection();
+         pstmt = conn.prepareStatement(sql);   
+         
+         // pstmt는 자리값이 0이 아닌 1부터 시작, 매개변수값으로 setting
+         pstmt.setString(1, bname);
+         pstmt.setString(2, btitle);
+         pstmt.setString(3, bcontent);
+         pstmt.setString(4, bid);
+         
+         pstmt.executeUpdate();    // sql 실행
+      }
+      catch(Exception e) {
+         e.printStackTrace();
+      }finally {
+         try {
+            if (pstmt != null) {
+               pstmt.close();
+            }
+            if (conn != null) {
+               conn.close();
+            }
+            
+         }
+         catch(Exception e) {
+            e.printStackTrace();
+         }
+      }
+   }
+   public void delete(String bid) { //insert, 매개변수 선언
+	      
 	      Connection conn = null;
 	      //statement를 상속받는 인터페이스로 SQL구문을 실행시키는 기능을 갖는 객체
 	      PreparedStatement pstmt = null;      
 	      
 	      try {
-	         String sql = "UPDATE mvc_board SET bname=?, btitle=?, bcontent=? WHERE bid=?"; 
+	         String sql = "DELETE mvc_board WHERE bid=?"; 
 	         // PreparedStatement는 값에 뭐가 들어올지 모를 때 parameter값에 '?'를 씀, 조회수는 0부터 시작
 	         conn = datasource.getConnection();
 	         pstmt = conn.prepareStatement(sql);   
 	         
 	         // pstmt는 자리값이 0이 아닌 1부터 시작, 매개변수값으로 setting
-	         pstmt.setString(1, bname);
-	         pstmt.setString(2, btitle);
-	         pstmt.setString(3, bcontent);
-	         pstmt.setString(4, bid);
+	         pstmt.setString(1, bid);
 	         
 	         pstmt.executeUpdate();    // sql 실행
 	      }
@@ -206,4 +240,5 @@ public class BDao {
 	         }
 	      }
 	   }
+   
 }

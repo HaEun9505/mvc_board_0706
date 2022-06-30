@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.haeun.board.dao.BDao;
 import com.haeun.board.dto.BDto;
-
+//리스트
 public class BListCommand {
 	public void listExcute(HttpServletRequest request, HttpServletResponse response) {
 		BDao bdao = new BDao();

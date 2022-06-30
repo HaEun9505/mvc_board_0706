@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.haeun.board.dao.BDao;
-
+//수정
 public class BModifyCommand {
 	
 	public void modifyExecute(HttpServletRequest request, HttpServletResponse response) {
