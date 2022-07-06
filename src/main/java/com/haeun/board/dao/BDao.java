@@ -114,9 +114,10 @@ public class BDao {
 		return bdtos;		
 	}
    
-   public BDto contentView(String boardid) {	//리스트 이름을 contentView로 지정
-	   
-	  //sql = "SELECT * FROM mvc_board";
+   public BDto contentView(String boardid) {
+	  //이 메소드가 실행되는 시점에 조회수 함수 호출
+	  upHit(boardid);
+	  
 	  Connection conn = null;
 	  //statement를 상속받는 인터페이스로 SQL구문을 실행시키는 기능을 갖는 객체
 	  PreparedStatement pstmt = null; 
@@ -205,40 +206,73 @@ public class BDao {
          }
       }
    }
-   public void delete(String bid) { //insert, 매개변수 선언
+   public void delete(String bid) { 
 	      
-	      Connection conn = null;
-	      //statement를 상속받는 인터페이스로 SQL구문을 실행시키는 기능을 갖는 객체
-	      PreparedStatement pstmt = null;      
-	      
-	      try {
-	         String sql = "DELETE mvc_board WHERE bid=?"; 
-	         // PreparedStatement는 값에 뭐가 들어올지 모를 때 parameter값에 '?'를 씀, 조회수는 0부터 시작
-	         conn = datasource.getConnection();
-	         pstmt = conn.prepareStatement(sql);   
-	         
-	         // pstmt는 자리값이 0이 아닌 1부터 시작, 매개변수값으로 setting
-	         pstmt.setString(1, bid);
-	         
-	         pstmt.executeUpdate();    // sql 실행
-	      }
-	      catch(Exception e) {
-	         e.printStackTrace();
-	      }
-	      finally {
-	         try {
-	            if (pstmt != null) {
-	               pstmt.close();
-	            }
-	            if (conn != null) {
-	               conn.close();
-	            }
-	            
-	         }
-	         catch(Exception e) {
-	            e.printStackTrace();
-	         }
-	      }
-	   }
-   
+      Connection conn = null;
+      //statement를 상속받는 인터페이스로 SQL구문을 실행시키는 기능을 갖는 객체
+      PreparedStatement pstmt = null;      
+      
+      try {
+         String sql = "DELETE FROM mvc_board WHERE bid=?"; 
+         // PreparedStatement는 값에 뭐가 들어올지 모를 때 parameter값에 '?'를 씀, 조회수는 0부터 시작
+         conn = datasource.getConnection();
+         pstmt = conn.prepareStatement(sql);   
+         
+         // pstmt는 자리값이 0이 아닌 1부터 시작, 매개변수값으로 setting
+         pstmt.setString(1, bid);
+         
+         pstmt.executeUpdate();    // sql 실행
+      }
+      catch(Exception e) {
+         e.printStackTrace();
+      }
+      finally {
+         try {
+            if (pstmt != null) {
+               pstmt.close();
+            }
+            if (conn != null) {
+               conn.close();
+            }
+            
+         }
+         catch(Exception e) {
+            e.printStackTrace();
+         }
+      }
+   }
+   private void upHit(String bid) {
+	   Connection conn = null;
+      //statement를 상속받는 인터페이스로 SQL구문을 실행시키는 기능을 갖는 객체
+      PreparedStatement pstmt = null;      
+      
+      try {
+         String sql = "UPDATE mvc_board SET bhit=bhit+1 WHERE bid=?"; 
+         // PreparedStatement는 값에 뭐가 들어올지 모를 때 parameter값에 '?'를 씀, 조회수는 0부터 시작
+         conn = datasource.getConnection();
+         pstmt = conn.prepareStatement(sql);   
+         
+         // pstmt는 자리값이 0이 아닌 1부터 시작, 매개변수값으로 setting
+         pstmt.setString(1, bid);
+         
+         pstmt.executeUpdate();    // sql 실행
+      }
+      catch(Exception e) {
+         e.printStackTrace();
+      }
+      finally {
+         try {
+            if (pstmt != null) {
+               pstmt.close();
+            }
+            if (conn != null) {
+               conn.close();
+            }
+            
+         }
+         catch(Exception e) {
+            e.printStackTrace();
+         }
+      }
+   }
 }

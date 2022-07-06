@@ -5,13 +5,25 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.haeun.board.dao.BDao;
 //수정
-public class BModifyCommand {
+public class BModifyCommand implements BCommand{
 	
-	public void modifyExecute(HttpServletRequest request, HttpServletResponse response) {
+//	public void modifyExecute(HttpServletRequest request, HttpServletResponse response) {
+//		String btitle = request.getParameter("btitle");
+//		String bname = request.getParameter("bname");
+//		String bcontent = request.getParameter("bcontent");
+//		String bid = request.getParameter("bid");	// 히든속성으로 숨겼던 값을 가져옴
+//		
+//		BDao bdao = new BDao();
+//		bdao.modify(bname, btitle, bcontent, bid);
+//		
+//	}
+
+	@Override
+	public void excute(HttpServletRequest request, HttpServletResponse response) {
 		String btitle = request.getParameter("btitle");
 		String bname = request.getParameter("bname");
 		String bcontent = request.getParameter("bcontent");
-		String bid = request.getParameter("bid");
+		String bid = request.getParameter("bid");	// 히든속성으로 숨겼던 값을 가져옴
 		
 		BDao bdao = new BDao();
 		bdao.modify(bname, btitle, bcontent, bid);

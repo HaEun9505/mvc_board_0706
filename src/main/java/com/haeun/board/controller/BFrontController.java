@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.haeun.board.command.BCommand;
 import com.haeun.board.command.BContentviewCommand;
 import com.haeun.board.command.BDeleteCommand;
 import com.haeun.board.command.BListCommand;
@@ -19,7 +20,7 @@ import com.haeun.board.dao.BDao;
 /**
  * Servlet implementation class BFrontController
  */
-@WebServlet("*.do")	//Controller에서 특정확장자로 요청한것을 잡아줌
+@WebServlet("*.do")	//Controller에서 특정확장자로 요청한것을 잡아줌 -> command 호출
 public class BFrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -43,7 +44,7 @@ public class BFrontController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		actionDo(request, response);
 	}
 
@@ -53,7 +54,7 @@ public class BFrontController extends HttpServlet {
 		String command = uri.substring(conPath.length());	//실제 주소 요청 분기(command 분기)
 		
 		String view = null;
-		
+		BCommand comm=null;
 		//"write_view.do"와 일치하면
 		//요청을 받은 페이지에 command(주소 요청 분기)해서
 		//request객체로 실어서 view("/write_view.jsp")로 전달
@@ -65,16 +66,16 @@ public class BFrontController extends HttpServlet {
 			request.setCharacterEncoding("utf-8");
 			
 			//BWriteCommand 클래스 객체 선언(호출)
-			BWriteCommand comm = new BWriteCommand();
-			comm.writeExcute(request, response);
+			comm = new BWriteCommand();//인터페이스
+			comm.excute(request, response);
 			
 			view = "list.do";
 		}else if(command.equals("/list.do")) {
 			//글 리스트 불러오기 명령이(list command) 실행
 			
 			//BListCommand 클래스 객체 선언(호출)
-			BListCommand comm = new BListCommand();
-			comm.listExcute(request, response);
+			comm = new BListCommand();
+			comm.excute(request, response);
 			
 			view = "list.jsp";
 			//response.sendRedirect(view); //데이터가 셋팅된 request 객체를 사용하지 못함
@@ -82,8 +83,8 @@ public class BFrontController extends HttpServlet {
 			
 			
 			//BContentView 클래스 객체 선언(호출)
-			BContentviewCommand comm = new BContentviewCommand();
-			comm.viewExcute(request, response);
+			comm = new BContentviewCommand();
+			comm.excute(request, response);
 			
 			view = "content_view.jsp";
 		}else if(command.equals("/modify.do")) {	//content_view.do 요청
@@ -92,24 +93,21 @@ public class BFrontController extends HttpServlet {
 			
 			
 			//BModifyCommand 클래스 객체 선언(호출)
-			BModifyCommand comm = new BModifyCommand();
-			comm.modifyExecute(request, response);
+			comm = new BModifyCommand();
+			comm.excute(request, response);
 			
 			//수정하면 글 목록 페이지로 이동
 			view = "list.do";
-		}else if(command.equals("/delete.do")) {	//content_view.do 요청
-			//글 리스트 불러오기 명령이(list command) 실행
-			request.setCharacterEncoding("utf-8");
-			
+		}else if(command.equals("/delete.do")) {
 			
 			//BDeleteCommand 클래스 객체 선언(호출)
-			BDeleteCommand comm = new BDeleteCommand();
-			comm.deleteExecute(request, response);
-			
+			comm = new BDeleteCommand();
+			comm.excute(request, response);
+				
 			//삭제하면 글 목록 페이지로 이동
 			view = "list.do";
 		}
-		//페이지로 이동
+		//페이지로 이동((기존)request객체가 실린 채로 전달)
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);
 		
