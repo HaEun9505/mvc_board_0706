@@ -91,7 +91,6 @@ public class BFrontController extends HttpServlet {
 			
 			request.setCharacterEncoding("utf-8");
 			
-			
 			//BModifyCommand 클래스 객체 선언(호출)
 			comm = new BModifyCommand();
 			comm.excute(request, response);
